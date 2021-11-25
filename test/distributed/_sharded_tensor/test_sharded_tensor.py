@@ -983,6 +983,8 @@ class TestShardedTensorChunked(ShardedTensorTestBase):
             ],
         )
 
+        assert False
+
         m = MyShardedModel0(spec)
 
         # Test save
