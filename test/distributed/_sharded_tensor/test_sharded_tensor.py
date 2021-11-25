@@ -973,6 +973,7 @@ class TestShardedTensorChunked(ShardedTensorTestBase):
     @skip_if_lt_x_gpu(4)
     @requires_nccl()
     def test_state_dict(self):
+        self.assertEqual(1, 2)
         spec = ChunkShardingSpec(
             dim=0,
             placements=[
@@ -983,7 +984,7 @@ class TestShardedTensorChunked(ShardedTensorTestBase):
             ],
         )
 
-        self.assertEqual(1, 2)
+
 
         m = MyShardedModel0(spec)
 
