@@ -983,7 +983,7 @@ class TestShardedTensorChunked(ShardedTensorTestBase):
             ],
         )
 
-        assert False
+        self.assertEqual(1, 2)
 
         m = MyShardedModel0(spec)
 
