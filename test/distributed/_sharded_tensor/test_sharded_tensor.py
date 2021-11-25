@@ -65,6 +65,16 @@ class MyShardedModel1(torch.nn.Module):
         self.random_tensor1 = torch.nn.Parameter(torch.rand(2, 2))
         self.submodule = MyShardedModel2(spec, group)
 
+class MyShardedModel0(torch.nn.Module):
+    def __init__(self, spec=None, group=None):
+        super(MyShardedModel0, self).__init__()
+        if spec is not None:
+            self.sharded_tensor0 = _sharded_tensor.empty(spec, 10, 20, process_group=group, init_rrefs=True)
+        else:
+            self.sharded_tensor0 = None
+        self.random_tensor0 = torch.nn.Parameter(torch.rand(2, 2))
+        self.submodule = MyShardedModel1(spec, group)
+
 class TestShardedTensorMetadata(TestCase):
     def test_serialize_and_deserialize(self):
         shard_metadatas = [
@@ -973,7 +983,7 @@ class TestShardedTensorChunked(ShardedTensorTestBase):
             ],
         )
 
-        m = MyShardedModel1(spec)
+        m = MyShardedModel0(spec)
 
         # Test save
         m._register_state_dict_hook(state_dict_hook)
@@ -981,7 +991,7 @@ class TestShardedTensorChunked(ShardedTensorTestBase):
         torch.save(m.state_dict(), buffer)
 
         # Test load.
-        module_load = MyShardedModel1()
+        module_load = MyShardedModel0()
         module_load._register_load_state_dict_pre_hook(pre_load_state_dict_hook, True)
 
         buffer.seek(0)
