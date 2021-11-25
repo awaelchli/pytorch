@@ -982,7 +982,7 @@ class TestShardedTensorChunked(ShardedTensorTestBase):
                 "rank:3/cuda:3",
             ],
         )
-        syntax error
+
         self.assertEqual(1, 2)
 
         m = MyShardedModel0(spec)
